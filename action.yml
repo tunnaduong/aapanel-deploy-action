@@ -24,6 +24,7 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
+    - ${{ inputs.panel_url }}
     - ${{ inputs.webhook_key }}
     - ${{ inputs.ntfy_topic }}
     - ${{ inputs.ntfy_server }}

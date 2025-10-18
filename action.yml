@@ -6,11 +6,14 @@ branding:
   color: 'green'
 
 inputs:
+  panel_url:
+    description: 'Base URL of your aaPanel server (e.g. https://panel.example.com)'
+    required: true
   webhook_key:
-    description: 'Your aaPanel webhook key'
+    description: 'Access key of your aaPanel webhook'
     required: true
   ntfy_topic:
-    description: 'ntfy topic for notifications'
+    description: 'ntfy topic for notifications (optional)'
     required: false
   ntfy_server:
     description: 'ntfy server URL (default: https://ntfy.sh)'

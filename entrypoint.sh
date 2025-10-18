@@ -14,12 +14,12 @@ if curl -fsS -X POST "${PANEL_URL}/hook?access_key=${WEBHOOK_KEY}"; then
   echo "✅ Deploy triggered successfully!"
   # Gửi ntfy nếu có
   if [ -n "$NTFY_TOPIC" ]; then
-    curl -fsS -d "✅ Deploy successful for ${GITHUB_REPOSITORY}! ${RUN_URL}" "${NTFY_SERVER}/${NTFY_TOPIC}" || true
+    curl -fsS -d "✅ Deploy successful for ${GITHUB_REPOSITORY}! Check logs: ${RUN_URL}" "${NTFY_SERVER}/${NTFY_TOPIC}" || true
   fi
 else
   echo "❌ Deploy failed!"
   if [ -n "$NTFY_TOPIC" ]; then
-    curl -fsS -d "❌ Deploy failed for ${GITHUB_REPOSITORY}! ${RUN_URL}" "${NTFY_SERVER}/${NTFY_TOPIC}" || true
+    curl -fsS -d "❌ Deploy failed for ${GITHUB_REPOSITORY}! Check logs: ${RUN_URL}" "${NTFY_SERVER}/${NTFY_TOPIC}" || true
   fi
   exit 1
 fi

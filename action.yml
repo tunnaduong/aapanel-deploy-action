@@ -1,0 +1,26 @@
+name: 'aaPanel Auto Deploy'
+description: 'Simple GitHub Action to trigger aaPanel webhook and notify via ntfy'
+author: 'Dương Tùng Anh (Tunna Duong)'
+branding:
+  icon: 'rocket'
+  color: 'green'
+
+inputs:
+  webhook_key:
+    description: 'Your aaPanel webhook key'
+    required: true
+  ntfy_topic:
+    description: 'ntfy topic for notifications'
+    required: false
+  ntfy_server:
+    description: 'ntfy server URL (default: https://ntfy.sh)'
+    required: false
+    default: 'https://ntfy.sh'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.webhook_key }}
+    - ${{ inputs.ntfy_topic }}
+    - ${{ inputs.ntfy_server }}

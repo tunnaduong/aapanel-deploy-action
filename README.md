@@ -32,7 +32,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Deploy to aaPanel
-        uses: tunnaduong/aapanel-deploy-action@v1
+        uses: tunnaduong/aapanel-deploy-action@v1.0
         with:
           panel_url: https://panel.example.com
           webhook_key: ${{ secrets.AAPANEL_WEBHOOK_KEY }}

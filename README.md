@@ -99,8 +99,8 @@ cd "$PROJECT_DIR" || { echo "CD failed"; exit 1; }
 sudo -u www git fetch origin
 sudo -u www git reset --hard origin/main
 
-# Clean but exclude pull.log
-sudo -u www git clean -fd -e public/pull.log
+# Clean all modified changes
+sudo -u www git clean -fd
 sudo -u www git pull origin main
 
 # Ensure proper permissions
@@ -147,7 +147,7 @@ cd "$PROJECT_DIR" || { echo "CD failed"; exit 1; }
 # Pull latest changes
 sudo -u www git fetch origin
 sudo -u www git reset --hard origin/main
-sudo -u www git clean -fd -e public/pull.log
+sudo -u www git clean -fd
 sudo -u www git pull origin main
 
 # Laravel specific commands

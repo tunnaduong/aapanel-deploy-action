@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Deploy to aaPanel
-        uses: tunnaduong/aapanel-deploy-action@v3
+        uses: tunnaduong/aapanel-deploy-action@main
         with:
           panel_url: https://panel.example.com
           webhook_key: ${{ secrets.AAPANEL_WEBHOOK_KEY }}

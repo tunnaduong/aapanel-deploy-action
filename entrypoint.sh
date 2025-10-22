@@ -59,12 +59,17 @@ if [ -n "$GITHUB_TOKEN" ]; then
   
   if [ -n "$FAILED_JOBS" ]; then
     echo "❌ Some jobs failed: $FAILED_JOBS"
-    echo "🚫 Deploy will proceed but will notify failure"
+    echo "🚫 DEPLOY CANCELLED - Not deploying due to failed jobs"
+    if [ -n "$NTFY_TOPIC" ]; then
+      echo "📱 Sending failure notification - deploy cancelled"
+      curl -fsS -d "❌ Deploy CANCELLED for ${GITHUB_REPOSITORY} due to failed jobs: $FAILED_JOBS. Check logs: ${RUN_URL}" "${NTFY_SERVER}/${NTFY_TOPIC}" || true
+    fi
+    exit 1  # ← KHÔNG deploy, chỉ thông báo fail
   elif [ -n "$RUNNING_JOBS" ]; then
     echo "⏳ Some jobs still running after timeout: $RUNNING_JOBS"
     echo "⚠️  Deploying while other jobs are still running"
   else
-    echo "✅ All jobs in workflow succeeded"
+    echo "✅ All jobs in workflow succeeded - proceeding with deploy"
   fi
 else
   echo "⚠️  GITHUB_TOKEN not available, cannot check job status"
@@ -76,17 +81,10 @@ echo "🚀 Triggering deploy at ${PANEL_URL}..."
 if curl -fsS -X POST "${PANEL_URL}/hook?access_key=${WEBHOOK_KEY}"; then
   echo "✅ Deploy triggered successfully!"
   
-  # Gửi thông báo dựa trên kết quả của tất cả jobs
+  # Gửi thông báo success (chỉ khi deploy thực sự thành công)
   if [ -n "$NTFY_TOPIC" ]; then
-    if [ -n "$FAILED_JOBS" ]; then
-      # Có jobs failed - thông báo failure
-      echo "📱 Sending failure notification due to failed jobs: $FAILED_JOBS"
-      curl -fsS -d "❌ Deploy completed but some jobs failed: $FAILED_JOBS for ${GITHUB_REPOSITORY}! Check logs: ${RUN_URL}" "${NTFY_SERVER}/${NTFY_TOPIC}" || true
-    else
-      # Tất cả jobs success - thông báo success
-      echo "📱 Sending success notification - all jobs passed"
-      curl -fsS -d "✅ Deploy successful for ${GITHUB_REPOSITORY}! All jobs passed. Check logs: ${RUN_URL}" "${NTFY_SERVER}/${NTFY_TOPIC}" || true
-    fi
+    echo "📱 Sending success notification - deploy completed successfully"
+    curl -fsS -d "✅ Deploy successful for ${GITHUB_REPOSITORY}! All jobs passed. Check logs: ${RUN_URL}" "${NTFY_SERVER}/${NTFY_TOPIC}" || true
   fi
 else
   echo "❌ Deploy failed!"

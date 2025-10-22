@@ -1,28 +1,31 @@
-name: 'aaPanel Auto Deploy'
-description: 'Simple GitHub Action to trigger aaPanel webhook and notify via ntfy'
-author: 'Dương Tùng Anh (Tunna Duong)'
+name: "aaPanel Auto Deploy"
+description: "Simple GitHub Action to trigger aaPanel webhook and notify via ntfy"
+author: "Dương Tùng Anh (Tunna Duong)"
 branding:
-  icon: 'terminal'
-  color: 'green'
+  icon: "terminal"
+  color: "green"
 
 inputs:
   panel_url:
-    description: 'Base URL of your aaPanel server (e.g. https://panel.example.com)'
+    description: "Base URL of your aaPanel server (e.g. https://panel.example.com)"
     required: true
   webhook_key:
-    description: 'Access key of your aaPanel webhook'
+    description: "Access key of your aaPanel webhook"
     required: true
   ntfy_topic:
-    description: 'ntfy topic for notifications (optional)'
+    description: "ntfy topic for notifications (optional)"
     required: false
   ntfy_server:
-    description: 'ntfy server URL (default: https://ntfy.sh)'
+    description: "ntfy server URL (default: https://ntfy.sh)"
     required: false
-    default: 'https://ntfy.sh'
+    default: "https://ntfy.sh"
+
+# Note: GITHUB_TOKEN is automatically provided by GitHub Actions
+# No additional configuration needed for checking previous job statuses
 
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: "docker"
+  image: "Dockerfile"
   args:
     - ${{ inputs.panel_url }}
     - ${{ inputs.webhook_key }}

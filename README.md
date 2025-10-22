@@ -23,7 +23,7 @@ Before using this action, you need:
 
 1. **aaPanel server** with webhook plugin installed
 2. **GitHub repository** with Actions enabled
-3. **ntfy.sh account** (optional, for notifications)
+3. **ntfy.sh app** (optional, for notifications)
 
 ---
 

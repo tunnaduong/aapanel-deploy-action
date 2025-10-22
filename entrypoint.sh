@@ -29,7 +29,7 @@ if [ -n "$GITHUB_TOKEN" ]; then
     
     # Check if ANY jobs failed
     FAILED_JOBS=$(echo "$JOBS_JSON" | jq -r '.jobs[] | select(.conclusion == "failure" or .conclusion == "cancelled") | .name' 2>/dev/null || echo "")
-    RUNNING_JOBS=$(echo "$JOBS_JSON" | jq -r '.jobs[] | select(.status == "in_progress") | .name' 2>/dev/null || echo "")
+    RUNNING_JOBS=$(echo "$JOBS_JSON" | jq -r '.jobs[] | select(.status == "in_progress" and .name != "'"${GITHUB_JOB:-deploy}"'") | .name' 2>/dev/null || echo "")
     
     # If we have failed jobs, we can proceed immediately
     if [ -n "$FAILED_JOBS" ]; then

@@ -24,16 +24,28 @@ name: Auto Deploy to aaPanel
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
+  phplint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: michaelw90/PHP-Lint@master
+
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
     steps:
       - uses: actions/checkout@v4
       - name: Deploy to aaPanel
-        uses: tunnaduong/aapanel-deploy-action@v1.1
+        uses: tunnaduong/aapanel-deploy-action@v2
         with:
           panel_url: https://panel.example.com
           webhook_key: ${{ secrets.AAPANEL_WEBHOOK_KEY }}
-          ntfy_topic: mytopic
+          ntfy_topic: tunnapi-git-pulls
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
